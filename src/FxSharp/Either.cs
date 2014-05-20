@@ -4,8 +4,7 @@ namespace FxSharp
 {
     public static class Either
     {
-        internal static string DefaultCtorError =
-            "Don't use the default constructor!";
+        internal static string DefaultCtorError = "Don't use the default constructor!";
 
         /// <summary>
         ///     Construct an Either instance from a success val.
@@ -14,8 +13,7 @@ namespace FxSharp
         /// <typeparam name="TFailure">The type of the error val.</typeparam>
         /// <param name="value">The val to wrap.</param>
         /// <returns>The val wrapped in an Either instance.</returns>
-        public static Either<TSuccess, TFailure> Right<TSuccess, TFailure>(
-            TSuccess value)
+        public static Either<TSuccess, TFailure> Right<TSuccess, TFailure>(TSuccess value)
         {
             return new Either<TSuccess, TFailure>(value);
         }
@@ -27,8 +25,7 @@ namespace FxSharp
         /// <typeparam name="TFailure">The type of the error val.</typeparam>
         /// <param name="error">The error to wrap.</param>
         /// <returns>The error wrapped in an Either instance.</returns>
-        public static Either<TSuccess, TFailure> Left<TSuccess, TFailure>(
-            TFailure error)
+        public static Either<TSuccess, TFailure> Left<TSuccess, TFailure>(TFailure error)
         {
             return new Either<TSuccess, TFailure>(error);
         }
@@ -105,8 +102,7 @@ namespace FxSharp
         /// <typeparam name="TResult">The result type of fn.</typeparam>
         /// <param name="fn">The function to apply to the val.</param>
         /// <returns>A new Either instance.</returns>
-        public Either<TResult, TLeft> Select<TResult>(
-            Func<TRight, TResult> fn)
+        public Either<TResult, TLeft> Select<TResult>(Func<TRight, TResult> fn)
         {
             switch (_state)
             {
@@ -168,9 +164,7 @@ namespace FxSharp
         /// <param name="failure">The function to apply to error.</param>
         /// <param name="success">The function to apply to val.</param>
         /// <returns>The val returned by error failure or success.</returns>
-        public TResult Match<TResult>(
-            Func<TLeft, TResult> failure,
-            Func<TRight, TResult> success)
+        public TResult Match<TResult>(Func<TLeft, TResult> failure, Func<TRight, TResult> success)
         {
             switch (_state)
             {
