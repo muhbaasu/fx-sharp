@@ -159,8 +159,7 @@ namespace FxSharp
             Func<T, Maybe<TInter>> firstFn,
             Func<T, TInter, TResult> secondFn)
         {
-            return SelectMany(
-                x => firstFn(x).SelectMany(y => secondFn(x, y).ToMaybe()));
+            return SelectMany(x => firstFn(x).SelectMany(y => secondFn(x, y).ToMaybe()));
         }
 
         /// <summary>
