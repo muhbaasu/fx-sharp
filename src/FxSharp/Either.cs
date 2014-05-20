@@ -9,25 +9,25 @@ namespace FxSharp
         /// <summary>
         ///     Construct an Either instance from a success val.
         /// </summary>
-        /// <typeparam name="TSuccess">The type of the success val.</typeparam>
-        /// <typeparam name="TFailure">The type of the error val.</typeparam>
+        /// <typeparam name="TRight">The type of the success val.</typeparam>
+        /// <typeparam name="TLeft">The type of the error val.</typeparam>
         /// <param name="value">The val to wrap.</param>
         /// <returns>The val wrapped in an Either instance.</returns>
-        public static Either<TSuccess, TFailure> Right<TSuccess, TFailure>(TSuccess value)
+        public static Either<TRight, TLeft> Right<TRight, TLeft>(TRight value)
         {
-            return new Either<TSuccess, TFailure>(value);
+            return new Either<TRight, TLeft>(value);
         }
 
         /// <summary>
         ///     Construct an Either instance from an error val.
         /// </summary>
-        /// <typeparam name="TSuccess">The type of the success val.</typeparam>
-        /// <typeparam name="TFailure">The type of the error val.</typeparam>
+        /// <typeparam name="TRight">The type of the success val.</typeparam>
+        /// <typeparam name="TLeft">The type of the error val.</typeparam>
         /// <param name="error">The error to wrap.</param>
         /// <returns>The error wrapped in an Either instance.</returns>
-        public static Either<TSuccess, TFailure> Left<TSuccess, TFailure>(TFailure error)
+        public static Either<TRight, TLeft> Left<TRight, TLeft>(TLeft error)
         {
-            return new Either<TSuccess, TFailure>(error);
+            return new Either<TRight, TLeft>(error);
         }
     }
 
