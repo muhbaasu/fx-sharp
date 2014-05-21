@@ -38,6 +38,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\IntegralTypeExtensions.cs" />
     <Compile Include="Maybe.cs" />
     <Compile Include="Prelude.cs" />
   </ItemGroup>
