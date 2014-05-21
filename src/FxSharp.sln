@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FxSharp", "FxSharp\FxSharp.csproj", "{2290934B-5E2E-451D-AE75-4313F4145B7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FxSharp.Tests", "FxSharp.Tests\FxSharp.Tests.csproj", "{C94B251C-AA56-4993-85BC-972E7F0099EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{2290934B-5E2E-451D-AE75-4313F4145B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2290934B-5E2E-451D-AE75-4313F4145B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2290934B-5E2E-451D-AE75-4313F4145B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C94B251C-AA56-4993-85BC-972E7F0099EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C94B251C-AA56-4993-85BC-972E7F0099EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C94B251C-AA56-4993-85BC-972E7F0099EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C94B251C-AA56-4993-85BC-972E7F0099EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
