@@ -40,7 +40,7 @@ namespace FxSharp
         }
 
         /// <summary>
-        ///     Create a Just Maybe instance by wrapping an arbitratry val.
+        ///     Create a Just Maybe instance by wrapping an arbitrary val.
         /// </summary>
         /// <typeparam name="T">The wrapped type.</typeparam>
         /// <param name="val">The wrapped object.</param>

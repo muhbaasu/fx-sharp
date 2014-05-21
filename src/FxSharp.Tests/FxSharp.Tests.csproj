@@ -51,8 +51,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Extensions\IntegralTypeExtensions.cs" />
+    <Compile Include="Extensions\IntegralTypeExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MaybeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FxSharp\FxSharp.csproj">
