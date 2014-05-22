@@ -4,3 +4,4 @@ bin/
 *.suo
 AssemblyInfo.cs
 *.coverage
+packages/
