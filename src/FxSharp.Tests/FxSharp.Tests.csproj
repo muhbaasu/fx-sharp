@@ -52,7 +52,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Extensions\IntegralTypeExtensionsTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MaybeTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +59,9 @@
       <Project>{2290934b-5e2e-451d-ae75-4313f4145b7d}</Project>
       <Name>FxSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
