@@ -52,6 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Extensions\IntegralTypeExtensionsTests.cs" />
+    <Compile Include="Extensions\DictionaryExtensionsTests.cs" />
     <Compile Include="MaybeTests.cs" />
     <Compile Include="PreludeTests.cs" />
   </ItemGroup>
