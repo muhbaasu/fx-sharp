@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FxSharp.Tests
 {
@@ -15,7 +14,7 @@ namespace FxSharp.Tests
 
             Assert.AreEqual("Left 5", left.ToString());
             Assert.AreEqual("Right 10", right.ToString());
-            FxAssert.Throws<InvalidOperationException, string>(invalid.ToString);
+            Assert.AreEqual("Invalid Either", invalid.ToString());
         }
     }
 }

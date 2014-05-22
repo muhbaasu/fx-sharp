@@ -209,7 +209,7 @@ namespace FxSharp
                 case EitherState.IsLeft:
                     return string.Format("Left {0}", _error);
                 default:
-                    throw new InvalidOperationException(Either.DefaultCtorError);
+                    return "Invalid Either";
             }
         }
 
