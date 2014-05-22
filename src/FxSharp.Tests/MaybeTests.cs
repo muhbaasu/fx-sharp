@@ -7,39 +7,27 @@ namespace FxSharp.Tests
     [TestClass]
     public class MaybeTests
     {
-        internal enum TestEnum
-        {
-            DefaultValue,
-            AnotherValue
-        }
-
         [TestMethod]
         public void ToMaybeShouldReturnNothingForNull()
         {
             object o = null;
-
-            // ReSharper disable once ExpressionIsAlwaysNull
-            var result = o.ToMaybe().Match(just: _ => true, nothing: () => false);
-
-            Assert.IsFalse(result);
+            Assert.IsTrue(o.ToMaybe().IsNothing());
+            Assert.IsFalse(o.ToMaybe().IsJust());
         }
 
         [TestMethod]
         public void ToMaybeShouldReturnJustForNotNull()
         {
             var o = new object();
-            var result = o.ToMaybe().Match(just: _ => true, nothing: () => false);
-
-            Assert.IsTrue(result);
+            Assert.IsTrue(o.ToMaybe().IsJust());
+            Assert.IsFalse(o.ToMaybe().IsNothing());
         }
 
         [TestMethod]
         public void ToMaybeShouldReturnJustForValueTypes()
         {
             const int five = 5;
-            var result = five.ToMaybe().Match(just: _ => true, nothing: () => false);
-
-            Assert.IsTrue(result);
+            Assert.IsTrue(five.ToMaybe().IsJust());
         }
 
         [TestMethod]
@@ -48,8 +36,8 @@ namespace FxSharp.Tests
             const TestEnum defaultValue = TestEnum.DefaultValue;
             const TestEnum anotherValue = TestEnum.AnotherValue;
 
-            Assert.IsTrue(defaultValue.ToMaybe().Match(just: _ => true, nothing: () => false));
-            Assert.IsTrue(anotherValue.ToMaybe().Match(just: _ => true, nothing: () => false));
+            Assert.IsTrue(defaultValue.ToMaybe().IsJust());
+            Assert.IsTrue(anotherValue.ToMaybe().IsJust());
         }
 
         [TestMethod]
@@ -252,6 +240,12 @@ namespace FxSharp.Tests
 
             Assert.AreEqual("Just 5", justFive.ToString());
             Assert.AreEqual("Nothing", nothing.ToString());
+        }
+
+        private enum TestEnum
+        {
+            DefaultValue,
+            AnotherValue
         }
     }
 }

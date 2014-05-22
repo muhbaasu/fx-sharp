@@ -48,6 +48,30 @@ namespace FxSharp
         }
 
         /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="maybe"></param>
+        /// <returns></returns>
+        public static bool IsJust<T>(this Maybe<T> maybe)
+        {
+            return maybe.Match(
+                just: _ => true,
+                nothing: () => false);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="maybe"></param>
+        /// <returns></returns>
+        public static bool IsNothing<T>(this Maybe<T> maybe)
+        {
+            return maybe.Match(
+                just: _ => false,
+                nothing: () => true);
+        }
+
+        /// <summary>
         ///     Create a Just Maybe instance by wrapping an arbitrary val.
         /// </summary>
         /// <typeparam name="T">The wrapped type.</typeparam>
