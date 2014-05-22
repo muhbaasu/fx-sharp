@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace FxSharp
 {
@@ -82,6 +83,7 @@ namespace FxSharp
         /// </summary>
         /// <param name="other">The default val to return in case no val is stored.</param>
         /// <returns>Stored or given default val.</returns>
+        [Pure]
         public TRight GetOrElse(TRight other)
         {
             switch (_state)
@@ -102,7 +104,8 @@ namespace FxSharp
         /// <typeparam name="TResult">The result type of fn.</typeparam>
         /// <param name="fn">The function to apply to the val.</param>
         /// <returns>A new Either instance.</returns>
-        public Either<TLeft, TResult> Select<TResult>(Func<TRight, TResult> fn)
+        [Pure]
+        public Either<TLeft, TResult> Select<TResult>([NotNull] Func<TRight, TResult> fn)
         {
             switch (_state)
             {
@@ -121,7 +124,8 @@ namespace FxSharp
         /// </summary>
         /// <param name="fn">The function to apply to the val.</param>
         /// <returns>This.</returns>
-        public Either<TLeft, TRight> Select_(Action<TRight> fn)
+        [Pure]
+        public Either<TLeft, TRight> Select_([NotNull] Action<TRight> fn)
         {
             switch (_state)
             {
@@ -135,8 +139,9 @@ namespace FxSharp
             }
         }
 
+        [Pure]
         public Either<TLeft, TResSuccess> SelectMany<TResSuccess>(
-            Func<TRight, Either<TLeft, TResSuccess>> fn)
+            [NotNull] Func<TRight, Either<TLeft, TResSuccess>> fn)
         {
             switch (_state)
             {
@@ -149,9 +154,10 @@ namespace FxSharp
             }
         }
 
+        [Pure]
         public Either<TLeft, TResSuccess> SelectMany<TInner, TResSuccess>(
-            Func<TRight, Either<TLeft, TInner>> firstFn,
-            Func<TRight, TInner, TResSuccess> secondFn)
+            [NotNull] Func<TRight, Either<TLeft, TInner>> firstFn,
+            [NotNull] Func<TRight, TInner, TResSuccess> secondFn)
         {
             return SelectMany(x => firstFn(x).SelectMany(y =>
                 new Either<TLeft, TResSuccess>(secondFn(x, y))));
@@ -165,7 +171,10 @@ namespace FxSharp
         /// <param name="right">The function to apply to error.</param>
         /// <param name="left">The function to apply to val.</param>
         /// <returns>The val returned by error failure or success.</returns>
-        public TResult Match<TResult>(Func<TRight, TResult> right, Func<TLeft, TResult> left)
+        [Pure]
+        public TResult Match<TResult>(
+            [NotNull] Func<TRight, TResult> right,
+            [NotNull] Func<TLeft, TResult> left)
         {
             switch (_state)
             {
@@ -185,7 +194,10 @@ namespace FxSharp
         /// <param name="left">The function to apply to error.</param>
         /// <param name="right">The function to apply to val.</param>
         /// <returns>This.</returns>
-        public Either<TLeft, TRight> Match_(Action<TLeft> left, Action<TRight> right)
+        [Pure]
+        public Either<TLeft, TRight> Match_(
+            [NotNull] Action<TLeft> left,
+            [NotNull] Action<TRight> right)
         {
             switch (_state)
             {
@@ -200,6 +212,7 @@ namespace FxSharp
             }
         }
 
+        [Pure]
         public override string ToString()
         {
             switch (_state)

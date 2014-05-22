@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using FxSharp.Extensions;
+using JetBrains.Annotations;
 
 namespace FxSharp
 {
@@ -138,7 +138,7 @@ namespace FxSharp
         /// <param name="fn">A function to apply the the wrapped val.</param>
         /// <returns>The wrapped mapped val.</returns>
         [Pure]
-        public Maybe<TResult> Select<TResult>(Func<T, TResult> fn)
+        public Maybe<TResult> Select<TResult>([NotNull] Func<T, TResult> fn)
         {
             return _hasValue
                 ? new Maybe<TResult>(fn(_val))
@@ -151,7 +151,7 @@ namespace FxSharp
         /// <param name="fn">A function to apply to the wrapped val.</param>
         /// <returns>This.</returns>
         [Pure]
-        public Maybe<T> Select_(Action<T> fn)
+        public Maybe<T> Select_([NotNull] Action<T> fn)
         {
             if (_hasValue)
             {
@@ -170,7 +170,7 @@ namespace FxSharp
         /// </param>
         /// <returns>The result of fn.</returns>
         [Pure]
-        public Maybe<TResult> SelectMany<TResult>(Func<T, Maybe<TResult>> fn)
+        public Maybe<TResult> SelectMany<TResult>([NotNull] Func<T, Maybe<TResult>> fn)
         {
             return _hasValue ? fn(_val) : new Maybe<TResult>();
         }
@@ -188,8 +188,8 @@ namespace FxSharp
         /// <returns>The result of the functions combined.</returns>
         [Pure]
         public Maybe<TResult> SelectMany<TInter, TResult>(
-            Func<T, Maybe<TInter>> firstFn,
-            Func<T, TInter, TResult> secondFn)
+            [NotNull] Func<T, Maybe<TInter>> firstFn,
+            [NotNull] Func<T, TInter, TResult> secondFn)
         {
             return SelectMany(x => firstFn(x).SelectMany(y => secondFn(x, y).ToMaybe()));
         }
@@ -200,7 +200,7 @@ namespace FxSharp
         /// <param name="fn">A function to call if no val is present.</param>
         /// <returns>This instance.</returns>
         [Pure]
-        public Maybe<T> Otherwise_(Action fn)
+        public Maybe<T> Otherwise_([NotNull] Action fn)
         {
             if (!_hasValue)
             {
@@ -219,8 +219,8 @@ namespace FxSharp
         /// <returns>The result of the either nothing or just functions.</returns>
         [Pure]
         public TResult Match<TResult>(
-            Func<TResult> nothing,
-            Func<T, TResult> just)
+            [NotNull] Func<TResult> nothing,
+            [NotNull] Func<T, TResult> just)
         {
             return _hasValue ? just(_val) : nothing();
         }
@@ -231,7 +231,7 @@ namespace FxSharp
         /// <param name="nothing">The function to call if no val is present.</param>
         /// <param name="just">The function to call with a present val.</param>
         [Pure]
-        public Maybe<T> Match_(Action nothing, Action<T> just)
+        public Maybe<T> Match_([NotNull] Action nothing, [NotNull] Action<T> just)
         {
             if (_hasValue)
             {
