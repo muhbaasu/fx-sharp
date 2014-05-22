@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FxSharp.Utils;
+using JetBrains.Annotations;
 
 namespace FxSharp.Extensions
 {
@@ -25,14 +27,14 @@ namespace FxSharp.Extensions
         /// <param name="predicate">The predicate to filter with.</param>
         /// <returns>Maybe.Nothing(T) if no value matches the predicate.</returns>
         public static Maybe<TSource> FirstOrNothing<TSource>(
-            this IEnumerable<TSource> source,
-            Func<TSource, bool> predicate)
+            [NotNull] this IEnumerable<TSource> source,
+            [NotNull] Func<TSource, bool> predicate)
         {
-            if (source == null || predicate == null)
-            {
-                throw new ArgumentNullException("Source or predicate null in Maybe.FirstOrNothing.");
-            }
+            // ReSharper disable once PossibleMultipleEnumeration
+            Ensure.NotNull(source, "source");
+            Ensure.NotNull(predicate, "predicate");
 
+            // ReSharper disable once PossibleMultipleEnumeration
             var enumerable = source as TSource[] ?? source.ToArray();
 
             return !enumerable.Any(predicate)
@@ -47,13 +49,12 @@ namespace FxSharp.Extensions
         /// <param name="source">The enumerable.</param>
         /// <returns>Maybe.Nothing(T) if no value matches the predicate.</returns>
         public static Maybe<TSource> FirstOrNothing<TSource>(
-            this IEnumerable<TSource> source)
+            [NotNull] this IEnumerable<TSource> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("Source null in Maybe.FirstOrNothing.");
-            }
-
+            // ReSharper disable once PossibleMultipleEnumeration
+            Ensure.NotNull(source, "source");
+            
+            // ReSharper disable once PossibleMultipleEnumeration
             var enumerable = source as TSource[] ?? source.ToArray();
 
             return enumerable.Any()

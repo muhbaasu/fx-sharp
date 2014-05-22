@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using FxSharp.Utils;
+using JetBrains.Annotations;
 
 namespace FxSharp.Extensions
 {
@@ -19,9 +21,13 @@ namespace FxSharp.Extensions
         /// <returns>
         ///     Maybe.Just(T) when key is present, Maybe.Nothing(T) when key is not present.
         /// </returns>
-        public static Maybe<TValue> GetMaybe<TKey, TValue>
-            (this IDictionary<TKey, TValue> dict, TKey key)
+        public static Maybe<TValue> GetMaybe<TKey, TValue>(
+            [NotNull] this IDictionary<TKey, TValue> dict,
+            [NotNull] TKey key)
         {
+            Ensure.NotNull(dict, "dict");
+            Ensure.NotNull(key, "key");
+
             return dict.ContainsKey(key) ? Maybe.Just(dict[key]) : Maybe.Nothing<TValue>();
         }
     }
