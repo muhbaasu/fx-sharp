@@ -10,10 +10,10 @@ namespace FxSharp.Tests
             try
             {
                 fn();
+                Assert.Fail();
             }
             catch (T)
             {
-                Assert.Fail();
             }
         }
 
@@ -22,10 +22,10 @@ namespace FxSharp.Tests
             try
             {
                 fn();
+                Assert.Fail();
             }
             catch (T)
             {
-                Assert.Fail();
             }
         }
     }
