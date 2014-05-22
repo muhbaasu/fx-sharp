@@ -52,11 +52,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Extensions\EnumerableExtensionsTests.cs" />
+    <Compile Include="EitherTests.cs" />
     <Compile Include="Extensions\IntegralTypeExtensionsTests.cs" />
     <Compile Include="Extensions\DictionaryExtensionsTests.cs" />
     <Compile Include="Extensions\ObjectExtensionsTests.cs" />
     <Compile Include="MaybeTests.cs" />
     <Compile Include="PreludeTests.cs" />
+    <Compile Include="FxAssert.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FxSharp\FxSharp.csproj">
