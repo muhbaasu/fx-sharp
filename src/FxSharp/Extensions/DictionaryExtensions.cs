@@ -19,7 +19,7 @@ namespace FxSharp.Extensions
         /// <returns>
         ///     Maybe.Just(T) when key is present, Maybe.Nothing(T) when key is not present.
         /// </returns>
-        public static Maybe<TValue> GetOption<TKey, TValue>
+        public static Maybe<TValue> GetMaybe<TKey, TValue>
             (this IDictionary<TKey, TValue> dict, TKey key)
         {
             return dict.ContainsKey(key) ? Maybe.Just(dict[key]) : Maybe.Nothing<TValue>();
