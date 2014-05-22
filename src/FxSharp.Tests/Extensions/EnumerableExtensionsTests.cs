@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FxSharp.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -59,6 +60,23 @@ namespace FxSharp.Tests.Extensions
             _list.FirstOrNothing(x => x == 1).Match_(
                 just: first => Assert.AreEqual(1, first),
                 nothing: () => Assert.Fail("Should not be nothing"));
+        }
+
+        [TestMethod]
+        public void FirstOrNothingShouldThrowWhenPredicateNull()
+        {
+            FxAssert.Throws<ArgumentNullException, Maybe<int>>(() => _empty.FirstOrNothing(null));
+        }
+
+        [TestMethod]
+        public void FirstOrNothingShouldThrowWhenSourceNull()
+        {
+            IEnumerable<int> nullEnumerable = null;
+            // ReSharper disable once ExpressionIsAlwaysNull
+            FxAssert.Throws<ArgumentNullException, Maybe<int>>(
+                () => nullEnumerable.FirstOrNothing(null));
+            // ReSharper disable once ExpressionIsAlwaysNull
+            FxAssert.Throws<ArgumentNullException, Maybe<int>>(nullEnumerable.FirstOrNothing);
         }
     }
 }

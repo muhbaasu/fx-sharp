@@ -30,7 +30,7 @@ namespace FxSharp.Extensions
         {
             if (source == null || predicate == null)
             {
-                return Maybe.Nothing<TSource>();
+                throw new ArgumentNullException("Source or predicate null in Maybe.FirstOrNothing.");
             }
 
             var enumerable = source as TSource[] ?? source.ToArray();
@@ -51,7 +51,7 @@ namespace FxSharp.Extensions
         {
             if (source == null)
             {
-                return Maybe.Nothing<TSource>();
+                throw new ArgumentNullException("Source null in Maybe.FirstOrNothing.");
             }
 
             var enumerable = source as TSource[] ?? source.ToArray();
