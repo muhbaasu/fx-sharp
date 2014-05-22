@@ -21,7 +21,15 @@ namespace FxSharp
         /// <returns>A Maybe instance wrapping the given type.</returns>
         public static Maybe<T> ToMaybe<T>(this T val)
         {
-            return !val.Equals(default(T))
+            // Value types are always valid unless explicitly set to Nothing.
+            if (typeof (T).IsValueType)
+            {
+                return Just(val);
+            }
+
+            // At this point, T must be a reference type.
+            // ReSharper disable once CompareNonConstrainedGenericWithNull
+            return val != null
                 ? Just(val)
                 : Nothing<T>();
         }
@@ -204,7 +212,8 @@ namespace FxSharp
             if (_hasValue)
             {
                 just(_val);
-            } else
+            }
+            else
             {
                 nothing();
             }
