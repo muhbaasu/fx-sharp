@@ -57,8 +57,8 @@ namespace FxSharp.Extensions
             var enumerable = source as TSource[] ?? source.ToArray();
 
             return enumerable.Any()
-                ? Maybe.Nothing<TSource>()
-                : Maybe.Just(enumerable.FirstOrDefault());
+                ? Maybe.Just(enumerable.FirstOrDefault())
+                : Maybe.Nothing<TSource>();
         }
     }
 }
