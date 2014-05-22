@@ -4,7 +4,7 @@ namespace FxSharp
 {
     public static class Either
     {
-        internal static string DefaultCtorError = "Don't use the default constructor!";
+        internal const string DefaultCtorError = "Don't use the default constructor!";
 
         /// <summary>
         ///     Construct an Either instance from a success val.
@@ -13,9 +13,9 @@ namespace FxSharp
         /// <typeparam name="TLeft">The type of the error val.</typeparam>
         /// <param name="value">The val to wrap.</param>
         /// <returns>The val wrapped in an Either instance.</returns>
-        public static Either<TRight, TLeft> Right<TRight, TLeft>(TRight value)
+        public static Either<TLeft, TRight> Right<TLeft, TRight>(TRight value)
         {
-            return new Either<TRight, TLeft>(value);
+            return new Either<TLeft, TRight>(value);
         }
 
         /// <summary>
@@ -25,9 +25,9 @@ namespace FxSharp
         /// <typeparam name="TLeft">The type of the error val.</typeparam>
         /// <param name="error">The error to wrap.</param>
         /// <returns>The error wrapped in an Either instance.</returns>
-        public static Either<TRight, TLeft> Left<TRight, TLeft>(TLeft error)
+        public static Either<TLeft, TRight> Left<TLeft, TRight>(TLeft error)
         {
-            return new Either<TRight, TLeft>(error);
+            return new Either<TLeft, TRight>(error);
         }
     }
 
@@ -36,9 +36,9 @@ namespace FxSharp
     ///     The subtype 'Right' represents a successful result wrapping the val whereas the
     ///     'Left' subtype represents a failed computation with the resulting error val.
     /// </summary>
-    /// <typeparam name="TRight">Type of the successfully computed val.</typeparam>
     /// <typeparam name="TLeft">Type of the error val.</typeparam>
-    public struct Either<TRight, TLeft>
+    /// <typeparam name="TRight">Type of the successfully computed val.</typeparam>
+    public struct Either<TLeft, TRight>
     {
         /// <summary>
         ///     The possibly present error.
@@ -61,7 +61,7 @@ namespace FxSharp
         /// <param name="val">The success val.</param>
         internal Either(TRight val)
         {
-            _state = EitherState.IsSuccess;
+            _state = EitherState.IsRight;
             _val = val;
             _error = default(TLeft);
         }
@@ -72,7 +72,7 @@ namespace FxSharp
         /// <param name="error">The error val.</param>
         internal Either(TLeft error)
         {
-            _state = EitherState.IsFailure;
+            _state = EitherState.IsLeft;
             _val = default(TRight);
             _error = error;
         }
@@ -86,9 +86,9 @@ namespace FxSharp
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
+                case EitherState.IsRight:
                     return _val;
-                case EitherState.IsFailure:
+                case EitherState.IsLeft:
                     return other;
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
@@ -102,14 +102,14 @@ namespace FxSharp
         /// <typeparam name="TResult">The result type of fn.</typeparam>
         /// <param name="fn">The function to apply to the val.</param>
         /// <returns>A new Either instance.</returns>
-        public Either<TResult, TLeft> Select<TResult>(Func<TRight, TResult> fn)
+        public Either<TLeft, TResult> Select<TResult>(Func<TRight, TResult> fn)
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
-                    return new Either<TResult, TLeft>(fn(_val));
-                case EitherState.IsFailure:
-                    return new Either<TResult, TLeft>(_error);
+                case EitherState.IsRight:
+                    return new Either<TLeft, TResult>(fn(_val));
+                case EitherState.IsLeft:
+                    return new Either<TLeft, TResult>(_error);
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
             }
@@ -120,40 +120,41 @@ namespace FxSharp
         ///     Otherwise, don't do anything.
         /// </summary>
         /// <param name="fn">The function to apply to the val.</param>
-        public void Select_(Action<TRight> fn)
+        /// <returns>This.</returns>
+        public Either<TLeft, TRight> Select_(Action<TRight> fn)
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
+                case EitherState.IsRight:
                     fn(_val);
-                    break;
-                case EitherState.IsFailure:
-                    break;
+                    return this;
+                case EitherState.IsLeft:
+                    return this;
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
             }
         }
 
-        public Either<TResSuccess, TLeft> SelectMany<TResSuccess>(
-            Func<TRight, Either<TResSuccess, TLeft>> fn)
+        public Either<TLeft, TResSuccess> SelectMany<TResSuccess>(
+            Func<TRight, Either<TLeft, TResSuccess>> fn)
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
+                case EitherState.IsRight:
                     return fn(_val);
-                case EitherState.IsFailure:
-                    return new Either<TResSuccess, TLeft>(_error);
+                case EitherState.IsLeft:
+                    return new Either<TLeft, TResSuccess>(_error);
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
             }
         }
 
-        public Either<TResSuccess, TLeft> SelectMany<TInner, TResSuccess>(
-            Func<TRight, Either<TInner, TLeft>> firstFn,
+        public Either<TLeft, TResSuccess> SelectMany<TInner, TResSuccess>(
+            Func<TRight, Either<TLeft, TInner>> firstFn,
             Func<TRight, TInner, TResSuccess> secondFn)
         {
             return SelectMany(x => firstFn(x).SelectMany(y =>
-                new Either<TResSuccess, TLeft>(secondFn(x, y))));
+                new Either<TLeft, TResSuccess>(secondFn(x, y))));
         }
 
         /// <summary>
@@ -161,17 +162,17 @@ namespace FxSharp
         ///     failure to the error val.
         /// </summary>
         /// <typeparam name="TResult">The result of success and failure.</typeparam>
-        /// <param name="failure">The function to apply to error.</param>
-        /// <param name="success">The function to apply to val.</param>
+        /// <param name="right">The function to apply to error.</param>
+        /// <param name="left">The function to apply to val.</param>
         /// <returns>The val returned by error failure or success.</returns>
-        public TResult Match<TResult>(Func<TLeft, TResult> failure, Func<TRight, TResult> success)
+        public TResult Match<TResult>(Func<TRight, TResult> right, Func<TLeft, TResult> left)
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
-                    return success(_val);
-                case EitherState.IsFailure:
-                    return failure(_error);
+                case EitherState.IsRight:
+                    return right(_val);
+                case EitherState.IsLeft:
+                    return left(_error);
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
             }
@@ -181,18 +182,19 @@ namespace FxSharp
         ///     Apply the function success to the val if present. Otherwise, apply the function
         ///     failure to the error val. Ignore the results of both.
         /// </summary>
-        /// <param name="failure">The function to apply to error.</param>
-        /// <param name="success">The function to apply to val.</param>
-        public void Match_(Action<TLeft> failure, Action<TRight> success)
+        /// <param name="left">The function to apply to error.</param>
+        /// <param name="right">The function to apply to val.</param>
+        /// <returns>This.</returns>
+        public Either<TLeft, TRight> Match_(Action<TLeft> left, Action<TRight> right)
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
-                    success(_val);
-                    break;
-                case EitherState.IsFailure:
-                    failure(_error);
-                    break;
+                case EitherState.IsRight:
+                    right(_val);
+                    return this;
+                case EitherState.IsLeft:
+                    left(_error);
+                    return this;
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
             }
@@ -202,9 +204,9 @@ namespace FxSharp
         {
             switch (_state)
             {
-                case EitherState.IsSuccess:
+                case EitherState.IsRight:
                     return string.Format("Right {0}", _val);
-                case EitherState.IsFailure:
+                case EitherState.IsLeft:
                     return string.Format("Left {0}", _error);
                 default:
                     throw new InvalidOperationException(Either.DefaultCtorError);
@@ -224,9 +226,9 @@ namespace FxSharp
             // to fall into the default case as well as to detect the use of the default 
             // constructor which makes no sense in this context).
             // ReSharper disable once UnusedMember.Local
-            IsInvalid,
-            IsSuccess,
-            IsFailure
+            IsUninitialized,
+            IsRight,
+            IsLeft
         }
     }
 }
