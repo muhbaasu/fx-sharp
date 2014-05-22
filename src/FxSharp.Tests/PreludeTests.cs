@@ -7,7 +7,7 @@ namespace FxSharp.Tests
     public class PreludeTests
     {
         [TestMethod]
-        public void IdReturnThePlainArgument()
+        public void IdShouldJustReturnTheArgument()
         {
             const string str = "";
             const int five = 5;
