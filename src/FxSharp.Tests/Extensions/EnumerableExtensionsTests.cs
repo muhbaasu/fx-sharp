@@ -74,7 +74,7 @@ namespace FxSharp.Tests.Extensions
             IEnumerable<int> nullEnumerable = null;
             // ReSharper disable once ExpressionIsAlwaysNull
             FxAssert.Throws<ArgumentNullException, Maybe<int>>(
-                () => nullEnumerable.FirstOrNothing(null));
+                () => nullEnumerable.FirstOrNothing(x => x == 1));
             // ReSharper disable once ExpressionIsAlwaysNull
             FxAssert.Throws<ArgumentNullException, Maybe<int>>(nullEnumerable.FirstOrNothing);
         }
