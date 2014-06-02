@@ -78,5 +78,45 @@ namespace FxSharp.Tests.Extensions
             // ReSharper disable once ExpressionIsAlwaysNull
             FxAssert.Throws<ArgumentNullException, Maybe<int>>(nullEnumerable.FirstOrNothing);
         }
+
+        [TestMethod]
+        public void LastOrNothingShouldReturnNothingWhenEmpty()
+        {
+            Assert.IsTrue(_empty.LastOrNothing().IsNothing());
+        }
+
+        [TestMethod]
+        public void LastOrNothingShouldReturnJustWhenNotEmpty()
+        {
+            Assert.IsTrue(_list.LastOrNothing().IsJust());
+        }
+
+        [TestMethod]
+        public void LastOrNothingShouldReturnCorrectValueWhenNotEmpty()
+        {
+            _list.LastOrNothing().Match_(
+                just: last => Assert.AreEqual(3, last),
+                nothing: () => Assert.Fail("Should not be nothing"));
+        }
+
+        [TestMethod]
+        public void LastOrNothingShouldReturnNothingWhenPredicateUnsatisfied()
+        {
+            Assert.IsTrue(_list.LastOrNothing(x => x > 3).IsNothing());
+        }
+
+        [TestMethod]
+        public void LastOrNothingShouldReturnJustWhenPredicateSatisfied()
+        {
+            Assert.IsTrue(_list.LastOrNothing(x => x > 1).IsJust());
+        }
+
+        [TestMethod]
+        public void LastOrNothingShouldReturnCorrectValueWhenPredicateSatisfied()
+        {
+            _list.LastOrNothing(x => x > 1).Match_(
+                just: last => Assert.AreEqual(3, last),
+                nothing: () => Assert.Fail("Should not be nothing"));
+        }
     }
 }
