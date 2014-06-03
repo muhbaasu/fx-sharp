@@ -5,12 +5,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FxSharp.Tests.Extensions
 {
     [TestClass]
-    public class StackExtensions
+    public class StackExtensionsTests
     {
         private readonly Stack<int> _empty = new Stack<int>();
         private readonly Stack<int> _stack = new Stack<int>();
 
-        public StackExtensions()
+        public StackExtensionsTests()
         {
             _stack.Push(1);
             _stack.Push(2);
