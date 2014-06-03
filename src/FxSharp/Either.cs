@@ -196,8 +196,8 @@ namespace FxSharp
         /// <returns>This.</returns>
         [Pure]
         public Either<TLeft, TRight> Match_(
-            [NotNull] Action<TLeft> left,
-            [NotNull] Action<TRight> right)
+            [NotNull] Action<TRight> right,
+            [NotNull] Action<TLeft> left)
         {
             switch (_state)
             {
