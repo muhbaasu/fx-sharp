@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Remoting.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FxSharp.Tests
@@ -121,6 +120,24 @@ namespace FxSharp.Tests
                     return false;
                 });
             Assert.IsTrue(mappedFn);
+        }
+
+        [TestMethod]
+        public void ToMaybeShouldReturnJustWhenRight()
+        {
+            Assert.IsTrue(_right.ToMaybe().IsJust());
+        }
+
+        [TestMethod]
+        public void ToMaybeShouldReturnNothingWhenLeft()
+        {
+            Assert.IsTrue(_left.ToMaybe().IsNothing());
+        }
+
+        [TestMethod]
+        public void ToMaybeShouldContainCorrectValue()
+        {
+            Assert.AreEqual(100, _right.ToMaybe().GetOrElse(-1));
         }
     }
 }

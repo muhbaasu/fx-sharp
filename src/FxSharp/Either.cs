@@ -227,6 +227,18 @@ namespace FxSharp
         }
 
         /// <summary>
+        /// Convert either to Maybe.
+        /// </summary>
+        /// <returns>Maybe.Nothing(T) when Left.</returns>
+        [Pure]
+        public Maybe<TRight> ToMaybe()
+        {
+            return Match(
+                left: _ => Maybe.Nothing<TRight>(),
+                right: Maybe.Just);
+        }
+
+        /// <summary>
         ///     The possible internal states.
         /// </summary>
         private enum EitherState
