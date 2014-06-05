@@ -156,10 +156,13 @@ namespace FxSharp.Extensions
             Ensure.NotNull(source, "source");
 
             // ReSharper disable once PossibleMultipleEnumeration
-            var enumerable = source as TSource[] ?? source.ToArray();
-            return enumerable.Count() == 1
-                ? Maybe.Just(enumerable.First())
-                : Maybe.Nothing<TSource>();
+            using (var enumerator = source.GetEnumerator())
+            {
+                if (!enumerator.MoveNext()) return Maybe.Nothing<TSource>();
+                TSource result = enumerator.Current;
+                if (!enumerator.MoveNext()) return Maybe.Just(result);
+            }
+            return Maybe.Nothing<TSource>();
         }
     }
 }

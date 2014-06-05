@@ -125,7 +125,6 @@ namespace FxSharp.Tests.Extensions
             Assert.IsTrue(_list.SingleOrNothing(x => x > 3).IsNothing());
         }
 
-
         [TestMethod]
         public void SingleOrNothingWithPredicateShouldReturnNothingWhenMultpleElements()
         {
@@ -138,13 +137,17 @@ namespace FxSharp.Tests.Extensions
             Assert.IsTrue(_list.SingleOrNothing(x => x < 2).IsJust());
         }
 
+        [TestMethod]
+        public void SingleOrNothingWithPredicateShouldReturnCorrectResult()
+        {
+            Assert.AreEqual(_list.SingleOrNothing(x => x < 2).GetOrElse(-1), 1);
+        }
 
         [TestMethod]
         public void SingleOrNothingShouldReturnWhenEmpty()
         {
             Assert.IsTrue(_empty.SingleOrNothing().IsNothing());
         }
-
 
         [TestMethod]
         public void SingleOrNothingShouldReturnNothingWhenMultpleElements()
