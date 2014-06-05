@@ -109,5 +109,26 @@ namespace FxSharp.Extensions
                 ? Maybe.Nothing<TSource>()
                 : Maybe.Just(enumerable.LastOrDefault(predicate));
         }
+
+        /// <summary>
+        ///     Returns the only element of a sequence. Returns Option.None(T) when source
+        ///     contains more than one element or when the source is empty.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the enumerable.</typeparam>
+        /// <param name="source">
+        ///     Option.Some(T) if the source contains exactly one element.
+        ///     Option.None(T) when source contains more than one element
+        ///     or when the source is empty.
+        /// </param>
+        /// <param name="predicate">The predicate to filter with.</param>
+        public static Maybe<TSource> SingleOrNothing<TSource>(
+            this IEnumerable<TSource> source,
+            Func<TSource, bool> predicate)
+        {
+            var filtered = source.Where(predicate).ToList();
+            return filtered.Count() == 1
+                ? Maybe.Just(filtered.First())
+                : Maybe.Nothing<TSource>();
+        }
     }
 }

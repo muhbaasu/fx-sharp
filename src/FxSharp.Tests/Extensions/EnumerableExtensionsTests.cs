@@ -118,5 +118,24 @@ namespace FxSharp.Tests.Extensions
                 just: last => Assert.AreEqual(3, last),
                 nothing: () => Assert.Fail("Should not be nothing"));
         }
+
+        [TestMethod]
+        public void SingleOrNothingShouldReturnWhenEmpty()
+        {
+            Assert.IsTrue(_list.SingleOrNothing(x => x > 3).IsNothing());
+        }
+
+
+        [TestMethod]
+        public void SingleOrNothingShouldReturnNothingWhenMultpleElements()
+        {
+            Assert.IsTrue(_list.SingleOrNothing(x => x >= 1).IsNothing());
+        }
+
+        [TestMethod]
+        public void SingleOrNothingShouldReturnJustWhenSingleElement()
+        {
+            Assert.IsTrue(_list.SingleOrNothing(x => x < 2).IsJust());
+        }
     }
 }
