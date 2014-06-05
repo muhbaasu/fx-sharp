@@ -120,22 +120,43 @@ namespace FxSharp.Tests.Extensions
         }
 
         [TestMethod]
-        public void SingleOrNothingShouldReturnWhenEmpty()
+        public void SingleOrNothingWithPredicateShouldReturnWhenEmpty()
         {
             Assert.IsTrue(_list.SingleOrNothing(x => x > 3).IsNothing());
         }
 
 
         [TestMethod]
-        public void SingleOrNothingShouldReturnNothingWhenMultpleElements()
+        public void SingleOrNothingWithPredicateShouldReturnNothingWhenMultpleElements()
         {
             Assert.IsTrue(_list.SingleOrNothing(x => x >= 1).IsNothing());
         }
 
         [TestMethod]
-        public void SingleOrNothingShouldReturnJustWhenSingleElement()
+        public void SingleOrNothingWithPredicateShouldReturnJustWhenSingleElement()
         {
             Assert.IsTrue(_list.SingleOrNothing(x => x < 2).IsJust());
+        }
+
+
+        [TestMethod]
+        public void SingleOrNothingShouldReturnWhenEmpty()
+        {
+            Assert.IsTrue(_empty.SingleOrNothing().IsNothing());
+        }
+
+
+        [TestMethod]
+        public void SingleOrNothingShouldReturnNothingWhenMultpleElements()
+        {
+            Assert.IsTrue(_list.SingleOrNothing().IsNothing());
+        }
+
+        [TestMethod]
+        public void SingleOrNothingWithShouldReturnJustWhenSingleElement()
+        {
+            var singleList = new List<int> {1};
+            Assert.IsTrue(singleList.SingleOrNothing().IsJust());
         }
     }
 }
