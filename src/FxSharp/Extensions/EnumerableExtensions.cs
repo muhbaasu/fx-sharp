@@ -132,10 +132,16 @@ namespace FxSharp.Extensions
             Ensure.NotNull(predicate, "predicate");
 
             // ReSharper disable once PossibleMultipleEnumeration
-            var filtered = source.Where(predicate).ToList();
-            return filtered.Count() == 1
-                ? Maybe.Just(filtered.First())
-                : Maybe.Nothing<TSource>();
+            var filtered = source.Where(predicate);
+
+            using (var enumerator = filtered.GetEnumerator())
+            {
+                if (!enumerator.MoveNext()) return Maybe.Nothing<TSource>();
+                var result = enumerator.Current;
+                if (!enumerator.MoveNext()) return Maybe.Just(result);
+            }
+
+            return Maybe.Nothing<TSource>();
         }
 
         /// <summary>
@@ -159,7 +165,7 @@ namespace FxSharp.Extensions
             using (var enumerator = source.GetEnumerator())
             {
                 if (!enumerator.MoveNext()) return Maybe.Nothing<TSource>();
-                TSource result = enumerator.Current;
+                var result = enumerator.Current;
                 if (!enumerator.MoveNext()) return Maybe.Just(result);
             }
             return Maybe.Nothing<TSource>();
