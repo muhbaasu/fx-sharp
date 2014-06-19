@@ -210,7 +210,7 @@ namespace FxSharp
         /// <remarks>
         ///     <code>
         ///     var caller = from name in TelephoneDirectory.LookUpName("+49394965006") // LookUpName returns Maybe[string]
-        ///                  from photo in SocialNetwork.LookUpPhoto(name) // LookUpPhoto returns Maybe[Image]
+        ///                  from photo in SocialNetwork.LookUpPhoto(name)              // LookUpPhoto returns Maybe[Image]
         ///                  select new Caller(name, photo);
         ///     </code>
         /// </remarks>
@@ -254,7 +254,8 @@ namespace FxSharp
         /// <returns>The result of the either nothing or just functions.</returns>
         /// <remarks>
         ///     <code>
-        ///     var name = TelephoneDirectory.LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///     var name = TelephoneDirectory
+        ///                    .LookUpName("+49394965006") // LookUpName returns Maybe[string]
         ///                    .Match(
         ///                        just: name => name.ToUpper(),
         ///                        nothing: () => "John Doe");
