@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FxSharp.Extensions;
+using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FxSharp.Extensions;
-using JetBrains.Annotations;
 
 namespace FxSharp
 {
@@ -125,6 +125,13 @@ namespace FxSharp
         /// </summary>
         /// <param name="other">The default val to return in case no val is stored.</param>
         /// <returns>Stored or given default val.</returns>
+        /// <remarks>
+        ///     <code>
+        ///     var name = TelephoneDirectory
+        ///                    .LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///                    .GetOrElse("John Doe");
+        ///     </code>
+        /// </remarks>
         [Pure]
         public T GetOrElse(T other)
         {
@@ -137,6 +144,13 @@ namespace FxSharp
         /// <typeparam name="TResult">The type of the result of fn.</typeparam>
         /// <param name="fn">A function to apply the the wrapped val.</param>
         /// <returns>The wrapped mapped val.</returns>
+        /// <remarks>
+        ///     <code>
+        ///     var name = TelephoneDirectory
+        ///                    .LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///                    .Select(name => name.ToUpper());
+        ///     </code>
+        /// </remarks>
         [Pure]
         public Maybe<TResult> Select<TResult>([NotNull] Func<T, TResult> fn)
         {
@@ -150,6 +164,13 @@ namespace FxSharp
         /// </summary>
         /// <param name="fn">A function to apply to the wrapped val.</param>
         /// <returns>This.</returns>
+        /// <remarks>
+        ///     <code>
+        ///     TelephoneDirectory
+        ///         .LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///         .Select_(name => view.DisplayName(name.ToUpper()));
+        ///     </code>
+        /// </remarks>
         [Pure]
         public Maybe<T> Select_([NotNull] Action<T> fn)
         {
@@ -186,6 +207,13 @@ namespace FxSharp
         /// <param name="firstFn">The first function to apply.</param>
         /// <param name="secondFn">The second function to apply.</param>
         /// <returns>The result of the functions combined.</returns>
+        /// <remarks>
+        ///     <code>
+        ///     var caller = from name in TelephoneDirectory.LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///                  from photo in SocialNetwork.LookUpPhoto(name) // LookUpPhoto returns Maybe[Image]
+        ///                  select new Caller(name, photo);
+        ///     </code>
+        /// </remarks>
         [Pure]
         public Maybe<TResult> SelectMany<TInter, TResult>(
             [NotNull] Func<T, Maybe<TInter>> firstFn,
@@ -199,6 +227,13 @@ namespace FxSharp
         /// </summary>
         /// <param name="fn">A function to call if no val is present.</param>
         /// <returns>This instance.</returns>
+        /// <remarks>
+        ///     <code>
+        ///     TelephoneDirectory
+        ///         .LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///         .Otherwise_(() => view.DisplayName("Unknown caller"));
+        ///     </code>
+        /// </remarks>
         [Pure]
         public Maybe<T> Otherwise_([NotNull] Action fn)
         {
@@ -217,6 +252,14 @@ namespace FxSharp
         /// <param name="nothing">The function to call if no val is present.</param>
         /// <param name="just">The function to call with a present val.</param>
         /// <returns>The result of the either nothing or just functions.</returns>
+        /// <remarks>
+        ///     <code>
+        ///     var name = TelephoneDirectory.LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///                    .Match(
+        ///                        just: name => name.ToUpper(),
+        ///                        nothing: () => "John Doe");
+        ///     </code>
+        /// </remarks>
         [Pure]
         public TResult Match<TResult>(
             [NotNull] Func<TResult> nothing,
@@ -230,6 +273,15 @@ namespace FxSharp
         /// </summary>
         /// <param name="nothing">The function to call if no val is present.</param>
         /// <param name="just">The function to call with a present val.</param>
+        /// <remarks>
+        ///     <code>
+        ///     TelephoneDirectory
+        ///         .LookUpName("+49394965006") // LookUpName returns Maybe[string]
+        ///         .Match_(
+        ///             just: name => view.DisplayName(name.ToUpper()),
+        ///             nothing: () => view.DisplayName("Unknown caller"));
+        ///     </code>
+        /// </remarks>
         [Pure]
         public Maybe<T> Match_([NotNull] Action nothing, [NotNull] Action<T> just)
         {
