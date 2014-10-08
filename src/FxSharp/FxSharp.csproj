@@ -40,6 +40,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\IntegralTypeExtensions.cs" />
     <Compile Include="Extensions\StackExtensions.cs" />
+    <Compile Include="Try.cs" />
     <Compile Include="Utils\Ensure.cs" />
     <Compile Include="Utils\JetBrains.Annotations.cs" />
     <Compile Include="Maybe.cs" />

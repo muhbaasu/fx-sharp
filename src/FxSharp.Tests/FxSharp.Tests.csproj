@@ -60,6 +60,7 @@
     <Compile Include="MaybeTests.cs" />
     <Compile Include="PreludeTests.cs" />
     <Compile Include="FxAssert.cs" />
+    <Compile Include="TryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FxSharp\FxSharp.csproj">
